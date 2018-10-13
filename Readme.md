@@ -14,7 +14,8 @@ cp ./vendor/surebert/monitor-http-status/examples/service.php .
 There is an example script for running as a command line tool with arguments in src/examples/service.php
 
 ```bash
-php service.php -v -l=/var/log/somepath -e=some@email.com -u=https://somesite.com,https://some-other.com
+mkdir ./logs
+php service.php -v -l=./logs -e=some@email.com -u=https://somesite.com,https://some-other.com
 ```
 
 # Compiling to phar
@@ -92,10 +93,12 @@ sudo chmod 555 /usr/local/bin/monitor-http-status.phar
 ```
 
 Now you could use it as a service script for init, upstart or systemd
+
 ```
 /usr/local/bin/monitor-http-status.phar -v -l=/var/log/somepath -e=some@email.com -u=https://somesite.com,https://some-other.com
 ```
 
+There is an exmaple init.d service script in examples/sysv/etc/init.d/monitor-http-status
 # Making your own custom notifier, you could use custom events, PSR3 loggers etc
 
 Then copy the following code into monitor.php
