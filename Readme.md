@@ -2,7 +2,7 @@ Used to monitor http status of websites and notify if needed
 
 To run, edit the index.php with your info you want and then run the index.php file
 
-Install with composer
+# Install with composer
 ```bash
 mkdir my-monitor
 cd my-monitor
@@ -66,3 +66,85 @@ Then run the php file
 ```
 php ./monitor.php
 ```
+
+# Running as a service
+There is an example script for running as a command line tool with arguments in src/examples/service.php
+
+```bash
+php service.php -v -l=/var/log/somepath -e=some@email.com -u=https://somesite.com,https://some-other.com
+```
+
+# Compiling to phar
+You could take the service example and archive it into a phar file for easy use as a linux system service
+
+First move out one directory
+```bash
+//copy the service.php file to the working directory you checked out into above
+cp ./vendor/surebert/monitor-http-status/examples/service.php .
+//move out one directory 
+cd ../
+//create a create-phar file and give enter the following code
+nano create-phar.php
+```
+
+```php
+<?php
+
+$pharFile = 'monitor-http-status.phar';
+
+// clean up
+if (file_exists($pharFile))
+{
+    unlink($pharFile);
+}
+
+if (file_exists($pharFile . '.gz'))
+{
+    unlink($pharFile . '.gz');
+}
+
+// create phar
+$phar = new Phar($pharFile);
+
+// start buffering. Mandatory to modify stub to add shebang
+$phar->startBuffering();
+
+// Create the default stub from main.php entrypoint
+$defaultStub = $phar->createDefaultStub('service.php');
+
+// Add the rest of the apps files
+$phar->buildFromDirectory(__DIR__ . '/monitor-http-status');
+
+// Customize the stub to add the shebang
+$stub = "#!/usr/bin/php \n" . $defaultStub;
+
+// Add the stub
+$phar->setStub($stub);
+
+$phar->stopBuffering();
+
+// plus - compressing it into gzip
+$phar->compressFiles(Phar::GZ);
+
+# Make the file executable
+chmod(__DIR__ . '/'.$pharFile, 0770);
+
+echo "$pharFile successfully created" . PHP_EOL;
+```
+
+Now archive the application with phar
+```bash
+php -dphar.readonly=0  create-phar.php
+```
+
+Test file to see instructions
+```
+./monitor-http-status.phar
+```
+
+If it works, move to /usr/local/bin if desired
+```
+sudo mv monitor-http-status.phar /usr/local/bin
+```
+
+Now you could use it as a service script for init, upstart or systemd
