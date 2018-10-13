@@ -2,7 +2,7 @@
 $usage = <<<USAGE
 
 -----------------
-php service.php -v -l=/var/log/somepath -e=some@email.com -u=https://somesite.com,https://some-other.com
+monitor-http-status -v -l=/var/log/somepath -e=some@email.com -u=https://somesite.com,https://some-other.com
 
     -v    Optional verbose logs to stdout
     -l    Log path to log to
