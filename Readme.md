@@ -88,7 +88,7 @@ Test file to see instructions
 If it works, move to /usr/local/bin if desired
 ```
 sudo mv monitor-http-status.phar /usr/local/bin
-sudo chmod u+x /usr/local/bin/monitor-http-status.phar
+sudo chmod 555 /usr/local/bin/monitor-http-status.phar
 ```
 
 Now you could use it as a service script for init, upstart or systemd
