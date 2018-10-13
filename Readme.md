@@ -4,10 +4,13 @@ To run, edit the index.php with your info you want and then run the index.php fi
 
 Install with composer
 ```bash
-composer install surebert/monitor-http-status
+mkdir my-monitor
+cd my-monitor
+composer require surebert/monitor-http-status:dev-master
+nano monitor.php
 ```
 
-Then make a PHP file and include the following e.g. monitor.php
+Then copy the following code into monitor.php
 
 ```php
 //include composer
@@ -27,7 +30,7 @@ $logger->pushHandler(new \Monolog\Handler\RotatingFileHandler('./logs/monitor', 
 $monitor = new \sb\Monitor\HttpStatus($logger);
 
 //OPTIONAL set interval between scans, defaults to 5 minutes (300 seconds)
-$monitor->setInterval(2);
+$monitor->setInterval(300);
 
 //OPTIONAL set status codes to ignore 200 is the default but 401 could also be useful
 $monitor->setHttpStatusCodesToIgnore([200]);

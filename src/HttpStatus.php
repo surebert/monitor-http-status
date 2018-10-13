@@ -224,7 +224,6 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
 
             $result = curl_exec($ch);
             if (curl_errno($ch)) {
-                $this->last_notification = time();
                 $monitor_messages[$url] = $url . " has an transport error code of " . curl_errno($ch) . " with message <" . trim(curl_error($ch) . ">");
                 $this->logger->notice($monitor_messages[$url]);
                 continue;
