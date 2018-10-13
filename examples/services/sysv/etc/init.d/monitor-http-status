@@ -5,7 +5,7 @@
 # processname: monitor-http-status
 
 
-DAEMON="/usr/local/bin/monitor-http-status.phar -l=/var/log/http-status-monitor -e=paul.visco@gmail.com -u=https://i2.roswellpark.org,https://my.roswellpark.org,https://i2proxy.roswellpark.org -i 2"
+DAEMON="/usr/local/bin/monitor-http-status.phar -l=/var/log/http-status-monitor -e=some@email.com -u=https://somesite.com,https://othersite.com"
 
 NAME=monitor-http-status
 DESC="Runs http status monitor"
