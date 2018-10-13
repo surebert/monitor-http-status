@@ -11,9 +11,9 @@
             "email": "paul.visco@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.1",
+        "monolog/monolog": "^1.23"
     },
     "autoload": {
         "psr-4": {
