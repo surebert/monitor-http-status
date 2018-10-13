@@ -66,10 +66,10 @@ $phar->setStub($stub);
 
 $phar->stopBuffering();
 
-// plus - compressing it into gzip
+// Plus - compressing it into gzip
 $phar->compressFiles(Phar::GZ);
 
-Make the file executable
+// Make the file executable
 chmod(__DIR__ . '/'.$pharFile, 0770);
 
 echo "$pharFile successfully created" . PHP_EOL;
