@@ -36,7 +36,7 @@ You may have to change the ownership on the directory depending on who you are r
 # Running as a service with logging to central log
 If you want to run this command as a service 
 
-## SysV CentOS 6
+## Installing as Init.d System Service
 The installation/services/sysv/etc/init.d/monitor-http-status file can be used as a system service
 simply copy the file into /etc/init.d/monitor-http-status on your server and make it executable
 
