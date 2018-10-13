@@ -4,8 +4,8 @@ To run, edit the index.php with your info you want and then run the index.php fi
 
 # Install with composer
 ```bash
-mkdir my-monitor
-cd my-monitor
+mkdir monitor-http-status
+cd monitor-http-status
 composer require surebert/monitor-http-status:dev-master
 cp ./vendor/surebert/monitor-http-status/examples/service.php .
 ```
