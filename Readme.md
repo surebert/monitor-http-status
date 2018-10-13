@@ -61,5 +61,5 @@ $monitor->begin();
 
 Then run the php file
 ```
-php monitor.php
+php ./monitor.php
 ```
