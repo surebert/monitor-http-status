@@ -133,6 +133,7 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
     public function setHttpStatusCodesToIgnore($ignore_status_codes = [200])
     {
         $this->ignore_codes = $ignore_status_codes;
+        $this->logger->info("Ignoring HTTP status codes: ".implode(", ", $ignore_status_codes));
     }
     
     /**
@@ -218,6 +219,9 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
 
             //Time to wait for connection in seconds
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout);
+            
+            //follow redirect to final destination
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
             //Time to wait for response in seconds
             curl_setopt($ch, CURLOPT_TIMEOUT, $this->response_timeout);
