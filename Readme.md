@@ -11,7 +11,7 @@ composer require surebert/monitor-http-status:dev-master
 You can convert this into a command line tool using the installer
 
 ```bash
-php -dphar.readonly=0 vendor/surebert/monitor-http-status/installation/install.php
+php vendor/surebert/monitor-http-status/installation/install.php
 ```
 
 Afterwards you will find a monitor-http-status command in the ./bin directory
