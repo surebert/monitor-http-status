@@ -1,0 +1,23 @@
+{
+    "name": "surebert/monitor-http-status",
+    "description": "Used to monitor http server statuses and log and notify issues",
+    "keywords": ["surebert", "monitor-http-status", "http-status"],
+    "version": "0.0.1",
+    "homepage": "https://gitlab.com/paulvisco/surebert-http-status-monitor",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paul Visco",
+            "email": "paul.visco@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "sb\\Monitor\\": "src"
+        }
+    }
+}
