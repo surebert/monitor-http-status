@@ -7,7 +7,7 @@ cd monitor-http-status;
 composer require surebert/monitor-http-status:dev-master
 ```
 
-# Running as a service
+# Installing as a command line tool
 You can convert this into a command line tool using the installer
 
 ```bash
