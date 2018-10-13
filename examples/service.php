@@ -56,8 +56,14 @@ if(isset($options['v'])){
 //create new http status monitor
 $monitor = new \sb\Monitor\HttpStatus($logger);
 
+//set default interval
+$interval = 300;
+if(isset($options['i']) && ctype_digit($options['i']) && $options['i'] != 0){
+    $interval = $options['i'];
+}
+
 //OPTIONAL set interval between scans, defaults to 5 minutes (300 seconds)
-$monitor->setInterval($options['i'] ?? 300);
+$monitor->setInterval($interval);
 
 //OPTIONAL set status codes to ignore 200 is the default but 401 could also be useful
 $monitor->setHttpStatusCodesToIgnore([200]);
