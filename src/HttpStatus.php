@@ -59,7 +59,7 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
     
     /**
      * Notification handler
-     * @var \Closure 
+     * @var \Closure
      */
     protected $on_notification_handler = null;
 
@@ -139,7 +139,8 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
      * Sets the notification timeout in seconds
      * @param int $time_between_notfication_in_seconds
      */
-    public function setNotificationTimeout($time_between_notfication_in_seconds = null){
+    public function setNotificationTimeout($time_between_notfication_in_seconds = null)
+    {
         if (is_int($time_between_notfication_in_seconds)) {
             $this->time_between_notfication_in_seconds = $time_between_notfication_in_seconds;
         }
@@ -176,9 +177,9 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
      * @param \Closure $on_notification_handler The function to fire when a notification would go out
      * @param int $time_between_notfication_in_seconds Optional timeout, waits 900 seconds by default
      */
-    public function onNotification(\Closure $on_notification_handler, $time_between_notfication_in_seconds = null){
-  
-        if($on_notification_handler instanceof \Closure){
+    public function onNotification(\Closure $on_notification_handler, $time_between_notfication_in_seconds = null)
+    {
+        if ($on_notification_handler instanceof \Closure) {
             $this->logger->debug("Setting onNotification handler ".preg_replace("~\s+~", " ", print_r($on_notification_handler, 1)));
             $this->on_notification_handler = $on_notification_handler;
         }
@@ -267,7 +268,5 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
         }
 
         ($this->on_notification_handler)($message, $this->logger);
-        
     }
-    
 }
