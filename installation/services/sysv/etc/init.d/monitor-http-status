@@ -1,61 +1,60 @@
 #!/bin/bash
 # monitor-http-status daemon
 # chkconfig: 345 20 80
-# description: myapp daemo
-# processname: monitor-http-status
 
-
-DAEMON="/usr/local/bin/monitor-http-status -l=/var/log/http-status-monitor -e=some@email.com -u=https://somesite.com,https://othersite.com"
+# Edit this line to send to a comma delimited list of emails you choose and a list of website URLs
+SCRIPT="/usr/local/bin/monitor-http-status -v -e=someone@example.com -u=https://example.com,https://subsite.example.com"
 
 NAME=monitor-http-status
-DESC="Runs http status monitor"
+RUNAS=monitor-http-status
 PIDFILE=/var/run/$NAME.pid
-SCRIPTNAME=/etc/init.d/$NAME
+LOGFILE=/var/log/$NAME.log
+
+start() {
+  echo 'Starting service…' >&2
+
+  if [ ! -f "$LOGFILE" ]; then
+    echo "Creating Log File $LOGFILE" >&2
+    touch $LOGFILE
+    chown $RUNAS $LOGFILE
+  fi
+
+  local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
+  su -c "$CMD" $RUNAS > "$PIDFILE"
+  echo 'Service started' >&2
+}
+
+stop() {
+  if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
+    echo 'Service not running' >&2
+    return 1
+  fi
+  echo 'Stopping service…' >&2
+  kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
+  echo 'Service stopped' >&2
+}
+
+status() {
+  if [ -f $PIDFILE ] && kill -0 $(cat "$PIDFILE"); then
+    echo 'Service running' >&2
+    return 1
+  fi
+}
 
 case "$1" in
-start)
-      	printf "%-50s" "Starting $NAME..."
-        PID=`$DAEMON > /dev/null 2>&1 & echo $!`
-        echo "Saving PID" $PID " to " $PIDFILE
-        if [ -z $PID ]; then
-            printf "%s\n" "Fail"
-        else
-            echo $PID > $PIDFILE
-            printf "%s\n" "Ok"
-        fi
-;;
-status)
-       	printf "%-50s" "Checking $NAME..."
-        if [ -f $PIDFILE ]; then
-            PID=`cat $PIDFILE`
-            if [ -z "`ps axf | grep ${PID} | grep -v grep`" ]; then
-                printf "%s\n" "Process dead but pidfile exists"
-            else
-                echo "Running"
-            fi
-	else
-            printf "%s\n" "Service not running"
-        fi
-;;
-stop)
-     	printf "%-50s" "Stopping $NAME"
-            PID=`cat $PIDFILE`
-        if [ -f $PIDFILE ]; then
-            kill -HUP $PID
-            printf "%s\n" "Ok"
-            rm -f $PIDFILE
-        else
-            printf "%s\n" "pidfile not found"
-        fi
-;;
-
-restart)
-        $0 stop
-        $0 start
-;;
-
-*)
-  	echo "Usage: $0 {status|start|stop|restart}"
-        exit 1
-
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|status|restart}"
 esac

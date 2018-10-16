@@ -41,32 +41,27 @@ The installation/services/sysv/etc/init.d/monitor-http-status file can be used a
 simply copy the file into /etc/init.d/monitor-http-status on your server and make it executable
 
 ```bash
-sudo cp vendor/surebert/monitor-http-status/installation/sysv/etc/init.d/monitor-http-status /etc/init.d/ ;
-sudo chmod +x /etc/init.d/monitor-http-status
+sudo cp vendor/surebert/monitor-http-status/installation/services/sysv/etc/init.d/monitor-http-status /etc/init.d/ ;
+sudo chmod 0755 /etc/init.d/monitor-http-status
 ```
-To run, make your log base directory and then run the command
-You may have to change the ownership on the directory depending on who you are running as
+
+Now because we don't want this running as root to reduce attack vector, add a user for this service
 
 ```bash
-sudo mkdir /var/log/monitor-http-status;
-sudo chmod -R 777 /var/log/monitor-http-status;
-./bin/monitor-http-status -v -l=/var/log/monitor-http-status -e=some@email.com -u=https://somesite.com,https://some-other.com
+sudo useradd monitor-http-status;
 ```
 
-Then edit the file to watch the URLs you want and to send to the email you want near the top of the file
+Then edit the file to watch the URLs you want and to send to the email you want near the top of the file in the SCRIPT definition
 ```bash
 sudo nano /etc/init.d/monitor-http-status
-```
-
-Make sure that you make the log directory writeable
-```bash
-sudo mkdir /var/log/monitor-http-status
 ```
 
 Then test the command 
 ```
 sudo service monitor-http-status start
 ```
+
+If its working you should see logs in /var/log/monitor-http-status.log
 
 If everything works out, you can set it to start on server boot
 ```
