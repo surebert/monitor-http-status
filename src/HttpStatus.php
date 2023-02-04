@@ -198,6 +198,11 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
         $monitor_messages = [];
 
         foreach ($this->urls_to_monitor as $url) {
+            $include_body_in_response = false;
+            if(preg_match("/^(BODY\-)(http.*?)$/", $url, $match){
+                $url = $match[1];   
+                $include_body_in_response = true;
+            }
             $this->logger->debug("Monitoring " . $url);
 
             //create curl request object
@@ -214,8 +219,10 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
             //tell it to return the header
             curl_setopt($ch, CURLOPT_HEADER, true);
 
-            //tell it to return no body since we only care about the http headers
-            curl_setopt($ch, CURLOPT_NOBODY, true);
+            if(!$include_body_in_response){
+                //tell it to return no body since we only care about the http headers
+                curl_setopt($ch, CURLOPT_NOBODY, true);
+            }
 
             //Time to wait for connection in seconds
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout);
