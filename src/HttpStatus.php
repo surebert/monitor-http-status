@@ -200,7 +200,7 @@ class HttpStatus implements \Psr\Log\LoggerAwareInterface
         foreach ($this->urls_to_monitor as $url) {
             $include_body_in_response = false;
             if(preg_match("/^(BODY\-)(http.*?)$/", $url, $match)){
-                $url = $match[1];   
+                $url = $match[2];   
                 $include_body_in_response = true;
             }
             $this->logger->debug("Monitoring " . $url);
